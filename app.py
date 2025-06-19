@@ -24,7 +24,7 @@ def get_latest_json(image_filename, model):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', app_root=app.config.get('APPLICATION_ROOT', ''))
 
 @app.route('/api/files')
 def get_files():

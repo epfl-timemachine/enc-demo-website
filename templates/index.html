@@ -85,9 +85,10 @@
     <script>
         let currentFiles = [];
         let currentIndex = 0;
+        const APP_ROOT = '{{ app_root }}';
 
         async function loadFiles() {
-            const response = await fetch('/api/files');
+            const response = await fetch(`${APP_ROOT}/api/files`);
             currentFiles = await response.json();
             const select = document.getElementById('fileSelect');
             select.innerHTML = currentFiles.map(file => 
@@ -104,11 +105,11 @@
             currentIndex = currentFiles.indexOf(filename);
 
             // 加载图片
-            document.getElementById('imageDisplay').src = `/api/image/${filename}`;
+            document.getElementById('imageDisplay').src = `${APP_ROOT}/api/image/${filename}`;
 
             // 加载GPT-4o的JSON
             try {
-                const response1 = await fetch(`/api/json/gpt-4o/${filename}`);
+                const response1 = await fetch(`${APP_ROOT}/api/json/gpt-4o/${filename}`);
                 const json1 = await response1.json();
                 document.getElementById('jsonDisplay-gpt4o').textContent = JSON.stringify(json1, null, 2);
             } catch (error) {
@@ -117,7 +118,7 @@
 
             // 加载O4-mini的JSON
             try {
-                const response2 = await fetch(`/api/json/o4-mini/${filename}`);
+                const response2 = await fetch(`${APP_ROOT}/api/json/o4-mini/${filename}`);
                 const json2 = await response2.json();
                 document.getElementById('jsonDisplay-o4mini').textContent = JSON.stringify(json2, null, 2);
             } catch (error) {
