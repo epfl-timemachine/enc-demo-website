@@ -6,10 +6,10 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Config
-IMAGE_FOLDER = r'E:\ENC_website\data\raw_images'
+IMAGE_FOLDER = os.getenv('IMAGE_FOLDER', r'./data/raw_images')
 JSON_FOLDERS = {
-    'gpt-4o': r'E:\ENC_website\data\results\gpt-4o',
-    'o4-mini': r'E:\ENC_website\data\results\o4-mini'
+    'gpt-4o': os.getenv('JSON_FOLDER_GPT4O', r'./data/results/gpt-4o'),
+    'o4-mini': os.getenv('JSON_FOLDER_O4MINI', r'./data/results/o4-mini')
 }
 
 def get_latest_json(image_filename, model):
@@ -50,4 +50,5 @@ def get_json(model, filename):
         return jsonify(json.load(f))
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    debug_mode = os.getenv('FLASK_DEBUG', 'False') == 'True'
+    app.run(host='0.0.0.0', port=5000, debug=debug_mode)
